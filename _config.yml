@@ -1,0 +1,56 @@
+# ─────────────────────────────────────────────────────────
+# Site basics
+# ─────────────────────────────────────────────────────────
+title: "PRISM"
+tagline: "Latent Composition Consistency for Single-Image Reflection Removal"
+description: "PRISM: Pretrained-latent Reflection Image Separation Model — flow-matching single-image reflection removal in pretrained VAE latent space (ECCV 2026)."
+lang: en
+timezone: Asia/Seoul
+
+# Project page deployed at https://junsung6140.github.io/prism/
+url: "https://junsung6140.github.io"
+baseurl: "/prism"
+
+# ─────────────────────────────────────────────────────────
+# Build settings
+# ─────────────────────────────────────────────────────────
+markdown: kramdown
+highlighter: rouge
+permalink: /:title/
+
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+sitemap:
+  exclude: ["assets/lib/"]
+  filename: "sitemap.xml"
+
+author:
+  name: "Junseong Shin"
+  twitter: ""
+  github: "junsung6140"
+
+# ─────────────────────────────────────────────────────────
+# Excludes / Includes
+# ─────────────────────────────────────────────────────────
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/
+  - README.md
+  - package.json
+  - package-lock.json
+
+# ─────────────────────────────────────────────────────────
+# Defaults
+# ─────────────────────────────────────────────────────────
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "project_page"
+      seo:
+        type: "WebPage"

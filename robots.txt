@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://junsung6140.github.io/hazeflow/sitemap.xml
