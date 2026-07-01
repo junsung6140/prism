@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="">
-  <meta name="keywords" content="">
+        content="{{ page.title | strip_html }} — {{ site.description }}">
+  <meta name="keywords" content="reflection removal, flow matching, PRISM, ECCV 2026, computer vision, contrastive learning">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.title }}</title>
 
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ page.title | strip_html }}">
+  <meta property="og:description" content="{{ site.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}/">
+
+  <title>{{ page.title | strip_html }}</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Castoro&display=swap"
         rel="stylesheet">
 
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -25,16 +33,13 @@
       tex: {
         inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
         displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
-        processEscapes: true, 
+        processEscapes: true,
         tags: 'all',
       },
-      svg: {
-        fontCache: 'global'
-      }
+      svg: { fontCache: 'global' }
     };
   </script>
-  <script
-    type="text/javascript" id="MathJax-script" async
+  <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
   </script>
 </head>
@@ -47,25 +52,26 @@
       <div class="columns is-centered">
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title">{{ page.title }}</h1>
+
           {% if page.authors %}
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              {{ page.authors }}
+              {{ page.authors | join: " &nbsp;&nbsp; " }}
             </span>
           </div>
           {% endif %}
 
           {% if page.affiliations %}
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">
+          <div class="is-size-5 publication-authors" style="margin-top: 6px;">
+            <span class="author-block" style="color: #94A3B8; font-size: 1rem;">
               {{ page.affiliations }}
             </span>
           </div>
           {% endif %}
 
           {% if page.conference %}
-          <div class="is-size-5 publication-authors" style="margin-top: 8px;">
-            <span class="author-block">
+          <div class="is-size-5 publication-authors" style="margin-top: 10px;">
+            <span class="author-block" style="color: #FDE68A; font-size: 1.05rem;">
               {{ page.conference }}
             </span>
           </div>
@@ -73,11 +79,25 @@
 
           <div class="column has-text-centered">
             <div class="publication-links">
-              <!-- PDF Link. -->
+
+              {% if page.arxiv %}
+              <span class="link-block">
+                <a href="{{ page.arxiv }}"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank" rel="noopener">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              {% endif %}
+
               {% if page.paper %}
               <span class="link-block">
                 <a href="{{ page.paper }}"
-                   class="external-link button is-normal is-rounded is-dark">
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank" rel="noopener">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
                   </span>
@@ -85,11 +105,12 @@
                 </a>
               </span>
               {% endif %}
-              <!-- Video Link. -->
+
               {% if page.video %}
               <span class="link-block">
                 <a href="{{ page.video }}"
-                   class="external-link button is-normal is-rounded is-dark">
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank" rel="noopener">
                   <span class="icon">
                       <i class="fab fa-youtube"></i>
                   </span>
@@ -97,23 +118,25 @@
                 </a>
               </span>
               {% endif %}
-              <!-- Code Link. -->
+
               {% if page.code %}
               <span class="link-block">
                 <a href="{{ page.code }}"
-                   class="external-link button is-normal is-rounded is-dark">
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank" rel="noopener">
                   <span class="icon">
                       <i class="fab fa-github"></i>
                   </span>
                   <span>Code</span>
-                  </a>
+                </a>
               </span>
               {% endif %}
-              <!-- Dataset Link. -->
+
               {% if page.data %}
               <span class="link-block">
                 <a href="{{ page.data }}"
-                   class="external-link button is-normal is-rounded is-dark">
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank" rel="noopener">
                   <span class="icon">
                       <i class="fas fa-database"></i>
                   </span>
@@ -121,6 +144,7 @@
                 </a>
               </span>
               {% endif %}
+
             </div>
           </div>
         </div>
@@ -143,7 +167,7 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-8">
-        <div class="content">
+        <div class="content" style="text-align: center;">
           <p>
             Website template borrowed from <a href="https://github.com/nerfies/nerfies.github.io">NeRFies</a> and <a href="https://github.com/shunzh/project_website">the Jekyll fork</a>.
           </p>
