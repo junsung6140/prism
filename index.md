@@ -18,48 +18,50 @@ code: "https://github.com/junsung6140/PRISM-SIRR"
 
 
 <!-- ═══════════════════════════════════════════════════
-     REAL-WORLD DEMO — first thing visitors see
+     HERO: DAI vs PRISM comparison (JuxtaposeJS)
      ═══════════════════════════════════════════════════ -->
 
-## See It In Action
+<div class="comparison-section">
 
-<p style="text-align:center; color:#64748B; margin-bottom:1.5rem;">
-Drag the slider to compare. All images are <strong>challenging in-the-wild photos</strong> — no model has seen them during training.
-</p>
-
-<!-- Slider 1: Cat -->
-<div class="ba-slider" data-label-left="Input (with reflection)" data-label-right="PRISM output">
-  <img src="./static/image/real/cat_input.jpg" alt="Input" class="ba-before">
-  <img src="./static/image/real/cat_trans.jpg" alt="PRISM transmission output" class="ba-after">
-  <div class="ba-handle">
-    <div class="ba-handle-line"></div>
-    <div class="ba-handle-circle"><span>&lsaquo; &rsaquo;</span></div>
-    <div class="ba-handle-line"></div>
+  <!-- Thumbnail selector -->
+  <div class="thumb-row">
+    <img class="thumb active" src="./static/image/real/cat_input.jpg" data-idx="0" alt="Cat">
+    <img class="thumb" src="./static/image/real/market_input.jpg" data-idx="1" alt="Market">
+    <img class="thumb" src="./static/image/real/lights_input.jpg" data-idx="2" alt="Lights">
+    <img class="thumb" src="./static/image/real/cafe_input.jpg" data-idx="3" alt="Cafe">
+    <img class="thumb" src="./static/image/real/street_input.jpg" data-idx="4" alt="Street">
+    <img class="thumb" src="./static/image/real/remy_input.jpg" data-idx="5" alt="Remy">
   </div>
+
+  <!-- Juxtapose containers (one per image, swap visibility) -->
+  <div id="jx-wrap">
+    <div class="jx-slot active" id="jx-slot-0"></div>
+    <div class="jx-slot" id="jx-slot-1"></div>
+    <div class="jx-slot" id="jx-slot-2"></div>
+    <div class="jx-slot" id="jx-slot-3"></div>
+    <div class="jx-slot" id="jx-slot-4"></div>
+    <div class="jx-slot" id="jx-slot-5"></div>
+  </div>
+
+  <p class="comparison-caption">
+    Drag the slider to compare <strong>DAI</strong> (left) vs <strong>PRISM (Ours)</strong> (right) on challenging in-the-wild images.
+    <br>Click thumbnails above to switch images.
+  </p>
+
 </div>
 
-<!-- Slider 2: Market -->
-<div class="ba-slider" data-label-left="Input" data-label-right="Transmission">
-  <img src="./static/image/real/market_input.jpg" alt="Input" class="ba-before">
-  <img src="./static/image/real/market_trans.jpg" alt="PRISM transmission output" class="ba-after">
-  <div class="ba-handle">
-    <div class="ba-handle-line"></div>
-    <div class="ba-handle-circle"><span>&lsaquo; &rsaquo;</span></div>
-    <div class="ba-handle-line"></div>
-  </div>
-</div>
-
-<!-- Gallery: more examples as triplets -->
+<!-- Input → Transmission + Reflection triplets -->
 <div class="result-gallery fade-in">
+  <h3 style="text-align:center; margin-bottom:1rem;">PRISM decomposes each image into transmission and reflection</h3>
+  <div class="result-triplet">
+    <div class="result-img"><img src="./static/image/real/cat_input.jpg" alt="Input"><div class="result-label">Input</div></div>
+    <div class="result-img"><img src="./static/image/real/cat_trans.jpg" alt="Transmission"><div class="result-label">Transmission</div></div>
+    <div class="result-img"><img src="./static/image/real/cat_refl.jpg" alt="Reflection"><div class="result-label">Reflection</div></div>
+  </div>
   <div class="result-triplet">
     <div class="result-img"><img src="./static/image/real/lights_input.jpg" alt="Input"><div class="result-label">Input</div></div>
     <div class="result-img"><img src="./static/image/real/lights_trans.jpg" alt="Transmission"><div class="result-label">Transmission</div></div>
     <div class="result-img"><img src="./static/image/real/lights_refl.jpg" alt="Reflection"><div class="result-label">Reflection</div></div>
-  </div>
-  <div class="result-triplet">
-    <div class="result-img"><img src="./static/image/real/cafe_input.jpg" alt="Input"><div class="result-label">Input</div></div>
-    <div class="result-img"><img src="./static/image/real/cafe_trans.jpg" alt="Transmission"><div class="result-label">Transmission</div></div>
-    <div class="result-img"><img src="./static/image/real/cafe_refl.jpg" alt="Reflection"><div class="result-label">Reflection</div></div>
   </div>
   <div class="result-triplet">
     <div class="result-img"><img src="./static/image/real/street_input.jpg" alt="Input"><div class="result-label">Input</div></div>
@@ -71,7 +73,7 @@ Drag the slider to compare. All images are <strong>challenging in-the-wild photo
 ---
 
 <!-- ═══════════════════════════════════════════════════
-     ABSTRACT (collapsed, clean)
+     ABSTRACT
      ═══════════════════════════════════════════════════ -->
 <div class="columns is-centered has-text-centered">
     <div class="column is-four-fifths">
@@ -83,10 +85,6 @@ Single-image reflection removal (SIRR) seeks to recover the transmission layer f
 </div>
 
 ---
-
-<!-- ═══════════════════════════════════════════════════
-     KEY IDEA (brief)
-     ═══════════════════════════════════════════════════ -->
 
 ## Key Idea
 
@@ -167,47 +165,43 @@ function copyBibtex() {
   });
 }
 
-// ── Before / After Slider ──
+// ── JuxtaposeJS: build sliders and handle thumbnail switching ──
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.ba-slider').forEach(function(slider) {
-    var before = slider.querySelector('.ba-before');
-    var handle = slider.querySelector('.ba-handle');
-    var isDragging = false;
 
-    function setPosition(x) {
-      var rect = slider.getBoundingClientRect();
-      var pos = Math.max(0, Math.min(x - rect.left, rect.width));
-      var pct = (pos / rect.width) * 100;
-      before.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
-      handle.style.left = pct + '%';
-    }
+  var pairs = [
+    { dai: './static/image/real/cat_dai.jpg',    ours: './static/image/real/cat_trans.jpg' },
+    { dai: './static/image/real/market_dai.jpg',  ours: './static/image/real/market_trans.jpg' },
+    { dai: './static/image/real/lights_dai.jpg',  ours: './static/image/real/lights_trans.jpg' },
+    { dai: './static/image/real/cafe_dai.jpg',    ours: './static/image/real/cafe_trans.jpg' },
+    { dai: './static/image/real/street_dai.jpg',  ours: './static/image/real/street_trans.jpg' },
+    { dai: './static/image/real/remy_dai.jpg',    ours: './static/image/real/remy_trans.jpg' }
+  ];
 
-    // Initialize at 50%
-    before.style.clipPath = 'inset(0 50% 0 0)';
-    handle.style.left = '50%';
+  // Build each JuxtaposeJS slider
+  pairs.forEach(function(p, i) {
+    var slot = document.getElementById('jx-slot-' + i);
+    new juxtapose.JXSlider('#jx-slot-' + i, [
+      { src: p.dai,  label: 'DAI' },
+      { src: p.ours, label: 'PRISM (Ours)' }
+    ], {
+      animate: true,
+      showLabels: true,
+      showCredits: false,
+      startingPosition: '50%',
+      makeResponsive: true
+    });
+  });
 
-    slider.addEventListener('mousedown', function(e) {
-      isDragging = true;
-      setPosition(e.clientX);
-      e.preventDefault();
-    });
-    window.addEventListener('mousemove', function(e) {
-      if (isDragging) setPosition(e.clientX);
-    });
-    window.addEventListener('mouseup', function() {
-      isDragging = false;
-    });
-
-    // Touch support
-    slider.addEventListener('touchstart', function(e) {
-      isDragging = true;
-      setPosition(e.touches[0].clientX);
-    });
-    window.addEventListener('touchmove', function(e) {
-      if (isDragging) setPosition(e.touches[0].clientX);
-    });
-    window.addEventListener('touchend', function() {
-      isDragging = false;
+  // Thumbnail click handler
+  document.querySelectorAll('.thumb').forEach(function(thumb) {
+    thumb.addEventListener('click', function() {
+      var idx = this.getAttribute('data-idx');
+      // Update active thumb
+      document.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      // Show corresponding slider
+      document.querySelectorAll('.jx-slot').forEach(function(s) { s.classList.remove('active'); });
+      document.getElementById('jx-slot-' + idx).classList.add('active');
     });
   });
 
@@ -219,7 +213,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }, { threshold: 0.1 });
-
   document.querySelectorAll('.fade-in').forEach(function(el) {
     observer.observe(el);
   });

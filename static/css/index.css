@@ -408,6 +408,109 @@ section.section {
   }
 }
 
+/* ── Comparison Section (JuxtaposeJS hero) ── */
+.comparison-section {
+  margin: 0 auto 2rem;
+  max-width: 820px;
+}
+
+/* Thumbnail row */
+.thumb-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.thumb {
+  width: 90px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  opacity: 0.55;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.thumb:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.thumb.active {
+  opacity: 1;
+  border-color: var(--prism-accent);
+  box-shadow: 0 4px 16px rgba(108, 99, 255, 0.25);
+}
+
+/* JuxtaposeJS slot switching */
+#jx-wrap {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--prism-shadow);
+}
+
+.jx-slot {
+  display: none;
+}
+
+.jx-slot.active {
+  display: block;
+}
+
+/* Override JuxtaposeJS default styling */
+.jx-slider {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.jx-control {
+  background: rgba(108, 99, 255, 0.85) !important;
+  width: 40px !important;
+  height: 40px !important;
+  margin-left: -20px !important;
+  margin-top: -20px !important;
+  border-radius: 50% !important;
+  border: 3px solid #fff !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3) !important;
+}
+
+.jx-controller {
+  background: rgba(255,255,255,0.9) !important;
+  width: 3px !important;
+}
+
+.jx-slider .jx-handle .jx-arrow.jx-left {
+  border-color: transparent #fff transparent transparent !important;
+}
+
+.jx-slider .jx-handle .jx-arrow.jx-right {
+  border-color: transparent transparent transparent #fff !important;
+}
+
+.comparison-caption {
+  text-align: center;
+  color: var(--prism-text-muted);
+  font-size: 0.92rem;
+  margin-top: 14px;
+  line-height: 1.5;
+}
+
+@media screen and (max-width: 768px) {
+  .thumb {
+    width: 56px;
+    height: 38px;
+  }
+
+  .thumb-row {
+    gap: 6px;
+  }
+}
+
 /* ── Before / After Slider ── */
 .ba-slider {
   position: relative;
