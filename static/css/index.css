@@ -446,20 +446,12 @@ section.section {
   box-shadow: 0 4px 16px rgba(108, 99, 255, 0.25);
 }
 
-/* JuxtaposeJS slot switching */
+/* JuxtaposeJS container */
 #jx-wrap {
   position: relative;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: var(--prism-shadow);
-}
-
-.jx-slot {
-  display: none;
-}
-
-.jx-slot.active {
-  display: block;
 }
 
 /* Override JuxtaposeJS default styling */

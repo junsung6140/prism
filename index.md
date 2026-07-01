@@ -25,22 +25,14 @@ code: "https://github.com/junsung6140/PRISM-SIRR"
 
   <!-- Thumbnail selector -->
   <div class="thumb-row">
-    <img class="thumb active" src="./static/image/real/cat_input.jpg" data-idx="0" alt="Cat">
-    <img class="thumb" src="./static/image/real/market_input.jpg" data-idx="1" alt="Market">
+    <img class="thumb active" src="./static/image/real/roma_input.jpg" data-idx="0" alt="Portrait">
+    <img class="thumb" src="./static/image/real/chef_input.jpg" data-idx="1" alt="Chef">
     <img class="thumb" src="./static/image/real/lights_input.jpg" data-idx="2" alt="Lights">
-    <img class="thumb" src="./static/image/real/cafe_input.jpg" data-idx="3" alt="Cafe">
-    <img class="thumb" src="./static/image/real/street_input.jpg" data-idx="4" alt="Street">
-    <img class="thumb" src="./static/image/real/remy_input.jpg" data-idx="5" alt="Remy">
   </div>
 
-  <!-- Juxtapose containers (one per image, swap visibility) -->
+  <!-- Single Juxtapose container (rebuilt on thumbnail click) -->
   <div id="jx-wrap">
-    <div class="jx-slot active" id="jx-slot-0"></div>
-    <div class="jx-slot" id="jx-slot-1"></div>
-    <div class="jx-slot" id="jx-slot-2"></div>
-    <div class="jx-slot" id="jx-slot-3"></div>
-    <div class="jx-slot" id="jx-slot-4"></div>
-    <div class="jx-slot" id="jx-slot-5"></div>
+    <div id="jx-slider"></div>
   </div>
 
   <p class="comparison-caption">
@@ -54,19 +46,19 @@ code: "https://github.com/junsung6140/PRISM-SIRR"
 <div class="result-gallery fade-in">
   <h3 style="text-align:center; margin-bottom:1rem;">PRISM decomposes each image into transmission and reflection</h3>
   <div class="result-triplet">
-    <div class="result-img"><img src="./static/image/real/cat_input.jpg" alt="Input"><div class="result-label">Input</div></div>
-    <div class="result-img"><img src="./static/image/real/cat_trans.jpg" alt="Transmission"><div class="result-label">Transmission</div></div>
-    <div class="result-img"><img src="./static/image/real/cat_refl.jpg" alt="Reflection"><div class="result-label">Reflection</div></div>
+    <div class="result-img"><img src="./static/image/real/roma_input.jpg" alt="Input"><div class="result-label">Input</div></div>
+    <div class="result-img"><img src="./static/image/real/roma_trans.jpg" alt="Transmission"><div class="result-label">Transmission</div></div>
+    <div class="result-img"><img src="./static/image/real/roma_refl.jpg" alt="Reflection"><div class="result-label">Reflection</div></div>
+  </div>
+  <div class="result-triplet">
+    <div class="result-img"><img src="./static/image/real/chef_input.jpg" alt="Input"><div class="result-label">Input</div></div>
+    <div class="result-img"><img src="./static/image/real/chef_trans.jpg" alt="Transmission"><div class="result-label">Transmission</div></div>
+    <div class="result-img"><img src="./static/image/real/chef_refl.jpg" alt="Reflection"><div class="result-label">Reflection</div></div>
   </div>
   <div class="result-triplet">
     <div class="result-img"><img src="./static/image/real/lights_input.jpg" alt="Input"><div class="result-label">Input</div></div>
     <div class="result-img"><img src="./static/image/real/lights_trans.jpg" alt="Transmission"><div class="result-label">Transmission</div></div>
     <div class="result-img"><img src="./static/image/real/lights_refl.jpg" alt="Reflection"><div class="result-label">Reflection</div></div>
-  </div>
-  <div class="result-triplet">
-    <div class="result-img"><img src="./static/image/real/street_input.jpg" alt="Input"><div class="result-label">Input</div></div>
-    <div class="result-img"><img src="./static/image/real/street_trans.jpg" alt="Transmission"><div class="result-label">Transmission</div></div>
-    <div class="result-img"><img src="./static/image/real/street_refl.jpg" alt="Reflection"><div class="result-label">Reflection</div></div>
   </div>
 </div>
 
@@ -169,18 +161,18 @@ function copyBibtex() {
 document.addEventListener('DOMContentLoaded', function() {
 
   var pairs = [
-    { dai: './static/image/real/cat_dai.jpg',    ours: './static/image/real/cat_trans.jpg' },
-    { dai: './static/image/real/market_dai.jpg',  ours: './static/image/real/market_trans.jpg' },
-    { dai: './static/image/real/lights_dai.jpg',  ours: './static/image/real/lights_trans.jpg' },
-    { dai: './static/image/real/cafe_dai.jpg',    ours: './static/image/real/cafe_trans.jpg' },
-    { dai: './static/image/real/street_dai.jpg',  ours: './static/image/real/street_trans.jpg' },
-    { dai: './static/image/real/remy_dai.jpg',    ours: './static/image/real/remy_trans.jpg' }
+    { dai: './static/image/real/roma_dai.jpg',   ours: './static/image/real/roma_trans.jpg' },
+    { dai: './static/image/real/chef_dai.jpg',   ours: './static/image/real/chef_trans.jpg' },
+    { dai: './static/image/real/lights_dai.jpg', ours: './static/image/real/lights_trans.jpg' }
   ];
 
-  // Build each JuxtaposeJS slider
-  pairs.forEach(function(p, i) {
-    var slot = document.getElementById('jx-slot-' + i);
-    new juxtapose.JXSlider('#jx-slot-' + i, [
+  // Build slider for a given index
+  function buildSlider(idx) {
+    var container = document.getElementById('jx-slider');
+    // Clear previous slider
+    container.innerHTML = '';
+    var p = pairs[idx];
+    new juxtapose.JXSlider('#jx-slider', [
       { src: p.dai,  label: 'DAI' },
       { src: p.ours, label: 'PRISM (Ours)' }
     ], {
@@ -190,18 +182,18 @@ document.addEventListener('DOMContentLoaded', function() {
       startingPosition: '50%',
       makeResponsive: true
     });
-  });
+  }
 
-  // Thumbnail click handler
+  // Initialize first slider
+  buildSlider(0);
+
+  // Thumbnail click → destroy & rebuild slider
   document.querySelectorAll('.thumb').forEach(function(thumb) {
     thumb.addEventListener('click', function() {
-      var idx = this.getAttribute('data-idx');
-      // Update active thumb
+      var idx = parseInt(this.getAttribute('data-idx'));
       document.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
       this.classList.add('active');
-      // Show corresponding slider
-      document.querySelectorAll('.jx-slot').forEach(function(s) { s.classList.remove('active'); });
-      document.getElementById('jx-slot-' + idx).classList.add('active');
+      buildSlider(idx);
     });
   });
 
